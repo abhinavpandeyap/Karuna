@@ -89,8 +89,6 @@ Ensures secure communication between the user's device and the application's ser
                   Access of roles.
                   View data for accounting or reporting purposes.
                   Manage user permissions and roles, such as assigning staff or moderator privileges.
-
-            Management
                   View and manage donations and campaigns.
                   View and respond to reviews and ratings left by donors.
                   Send emails or messages to donors and receivers.
@@ -98,7 +96,7 @@ Ensures secure communication between the user's device and the application's ser
                   Export data for accounting or reporting purposes.
                   Add and edit content for the web application, such as charity profiles or blog posts.
                   
-            Delivery
+            Delivery_Partner
                   View their delivery schedule and details, such as the location and recipient of the delivery.
                   Receive notifications for new delivery assignments and updates. 
                   View a map and directions to the delivery location.
@@ -108,7 +106,7 @@ Ensures secure communication between the user's device and the application's ser
                   Provide and receives feedback notes about the delivery.
                   View their delivery history and performance metrics.
 
-            Item Chaecking (Safety) 
+           Customer_Executive
                   View a list of items that need to be checked.
                   View the details of an item, including its condition, value, and owner.
                   Mark an item as accepted or rejected, and provide a reason for their decision.
