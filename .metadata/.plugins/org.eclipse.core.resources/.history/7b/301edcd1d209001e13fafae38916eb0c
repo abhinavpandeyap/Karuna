@@ -1,0 +1,11 @@
+package com.app.karuna.service;
+
+import com.app.karuna.entity.Donor;
+
+public interface DonorService {
+	
+	public Donor registerDonor(Donor donor);
+	
+	public Donor loginDonor()
+
+}

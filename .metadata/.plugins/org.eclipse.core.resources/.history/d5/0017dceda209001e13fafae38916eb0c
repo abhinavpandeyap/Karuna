@@ -1,0 +1,17 @@
+package com.app.karuna.entity;
+
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
+
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
+@ToString
+@Entity
+@Table(name="item")
+public class Item extends BaseEntity {
+
+	
+}

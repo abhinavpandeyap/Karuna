@@ -1,0 +1,50 @@
+package com.app.karuna.entity;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
+@ToString
+@EqualsAndHashCode(callSuper=false)
+@Entity
+@Table(name="request")
+public class Request extends BaseEntity {
+
+	@Column(length=500)
+	private String description;
+	
+	
+	@NotNull
+	@Enumerated(EnumType.STRING)
+	private Type type;
+	
+	@ManyToOne
+	@JoinColumn(name="staff_id")
+	private Staff staff;
+	
+	@ManyToOne
+	@JoinColumn(name="receiver_id")
+	private Receiver receiver;
+	
+	
+	
+	
+	
+	
+}

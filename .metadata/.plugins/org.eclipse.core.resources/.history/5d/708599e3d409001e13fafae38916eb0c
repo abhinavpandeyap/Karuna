@@ -1,0 +1,5 @@
+package com.app.karuna.controller;
+
+public class ReceiverController {
+
+}

@@ -1,0 +1,83 @@
+package com.app.karuna.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.app.karuna.dto.LoginDTO;
+import com.app.karuna.entity.Campaign;
+import com.app.karuna.entity.Donor;
+import com.app.karuna.entity.Item;
+import com.app.karuna.entity.Receiver;
+import com.app.karuna.service.DonorService;
+
+@RestController
+public class DonorController {
+
+    @Autowired
+    private DonorService donorService;
+
+    @PostMapping("/donors/register")
+    public Donor registerDonor(@RequestBody Donor donor) {
+        return donorService.registerDonor(donor);
+    }
+
+    @PostMapping("/donors/login")
+    public Donor loginDonor(@RequestBody LoginDTO loginDTO) {
+        return donorService.loginDonor(loginDTO);
+    }
+
+    @PostMapping("/donors/logout/{donorId}")
+    public boolean logoutDonor(@PathVariable Long donorId) {
+        return donorService.logoutDonor(donorId);
+    }
+
+    @PutMapping("/donors/{donorId}")
+    public Donor updateAccount(@PathVariable Long donorId, @RequestBody Donor donor) {
+        // Set donorId on the donor object
+        donor.setId(donorId);
+        return donorService.updateAcc(donor);
+    }
+
+    @DeleteMapping("/donors/{donorId}")
+    public boolean deleteAccount(@PathVariable Long donorId) {
+        return donorService.deleteAcc(donorId);
+    }
+
+    @PostMapping("/donors/donate/receiver/{receiverId}")
+    public boolean donateToReceiver(@PathVariable Long receiverId, @RequestBody Item item) {
+        return donorService.donateToReceiver(receiverId, item);
+    }
+
+    @PostMapping("/donors/donate")
+    public boolean donate(@RequestBody Item item) {
+        return donorService.donate(item);
+    }
+
+    @PostMapping("/donors/donate/campaign/{campaignId}")
+    public boolean donateToCampaign(@PathVariable Long campaignId, @RequestBody Item item) {
+        return donorService.donateToCampaign(campaignId, item);
+    }
+
+    @GetMapping("/donors/history/{donorId}")
+    public List<Item> viewHistory(@PathVariable Long donorId) {
+        return donorService.viewHistory(donorId);
+    }
+
+    @GetMapping("/donors/receivers")
+    public List<Receiver> viewReceivers() {
+        return donorService.viewReceivers();
+    }
+
+    @GetMapping("/donors/campaigns")
+    public List<Campaign> viewCampaigns() {
+        return donorService.viewCampaigns();
+    }
+}

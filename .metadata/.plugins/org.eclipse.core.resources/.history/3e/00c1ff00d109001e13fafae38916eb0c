@@ -1,0 +1,24 @@
+package com.app.karuna.dto;
+
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
+
+import org.hibernate.validator.constraints.Length;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+public class LoginDTO {
+	
+	@NotBlank(message = "Email can't be blank!")
+	@Email(message = "Invalid Email Format")
+	@Length(min = 5,max=20,message = "Invalid Email length!!!!!!!")
+	private String email;
+	
+	
+	@NotBlank(message = "Password can't be blank!")
+	@Pattern(regexp="((?=.*\\d)(?=.*[a-z])(?=.*[#@$*]).{5,20})",message = "Blank or Invalid Password!!!!")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+	private String password;
+
+}

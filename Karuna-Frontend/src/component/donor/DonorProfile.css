@@ -1,0 +1,34 @@
+.profile-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f8f8f8;
+    padding: 20px;
+    border: 1px solid #ddd;
+  }
+  
+  .profile-picture {
+    width: 150px;
+    height: 150px;
+    overflow: hidden;
+    border-radius: 50%;
+    margin-right: 20px;
+  }
+  
+  .profile-picture img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .profile-details h2 {
+    margin-top: 0;
+    margin-bottom: 10px;
+  }
+  
+  .profile-details p {
+    margin: 0;
+    font-size: 16px;
+    color: #333;
+  }
+  

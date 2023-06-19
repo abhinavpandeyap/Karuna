@@ -1,0 +1,12 @@
+package com.app.karuna.entity;
+
+@Embeddable
+public class Location {
+
+	
+	
+	    private double latitude;
+	    private double longitude;
+
+
+}

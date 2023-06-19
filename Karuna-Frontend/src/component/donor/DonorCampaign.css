@@ -1,0 +1,7 @@
+.cards{
+    display: flex;
+    align-content: center;
+    align-self: center;
+    -ms-flex-align: center;
+    -ms-grid-column-align: end;
+}

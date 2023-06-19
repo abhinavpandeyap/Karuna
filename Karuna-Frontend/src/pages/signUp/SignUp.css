@@ -1,0 +1,39 @@
+.px-4 {
+    /* fallback for old browsers */
+    background: #f2e1c3;
+  
+    /* Chrome 10-25, Safari 5.1-6 */
+    /* background: -webkit-linear-gradient(to bottom right, rgb(238, 181, 68), rgb(235, 152, 27)); */
+  
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    /* background: linear-gradient(to bottom right,rgba(246, 122, 30, 1), rgb(240, 193, 52)) */
+  }
+
+  p{
+        color: #fff;
+      font-family: var(--font-family);
+      font-weight: 500;
+      font-size: 18px;
+      line-height: 25px;
+      text-transform: capitalize;
+      
+      margin: 0 1rem;
+      cursor: pointer;
+    
+  
+  }
+
+button{
+  margin-right: 1rem;
+  padding: 0.5rem 1rem;
+  color: #fff;
+  background: #e88215;
+  font-family: var(--font-family);
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 13px;
+  width: 7rem;
+  border-radius: 10px;
+  border-color: #eea30f;
+  cursor: pointer;
+}

@@ -1,0 +1,5 @@
+package com.karuna.exception;
+
+public class GlobalExceptionHandler {
+
+}

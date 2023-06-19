@@ -1,0 +1,96 @@
+.karuna__navbar {
+  /* position: relative; */
+  /* position: sticky; */
+  z-index: 1000;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2rem rem;
+
+}
+
+#logo {
+  width: 100px;
+  height: 80px;
+  filter: brightness(0) saturate(100%) invert(100%) sepia(0%) hue-rotate(0deg);
+}
+
+
+
+
+#xxx{
+    position: sticky;
+}
+
+.karuna__navbar-links {
+  flex: 1;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+
+
+.karuna__navbar-links_logo img {
+  margin-left: 1rem;
+  margin-right: 2rem;
+}
+
+.karuna__navbar-links_component {
+  display: flex;
+  flex-direction: row;
+}
+
+.karuna__navbar-sign {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.karuna__navbar-links_component p,
+.karuna__navbar-sign p,
+.karuna__navbar-menu_component p,
+.karuna__navbar-links_component a,
+.karuna__navbar-sign a,
+.karuna__navbar-menu_component a
+{
+  color: #fff;
+  font-family: var(--font-family);
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 25px;
+  text-transform: capitalize;
+  
+  margin: 0 1rem;
+  cursor: pointer;
+  text-decoration: none; 
+
+} 
+
+.karuna__navbar-sign button,
+.karuna__navbar-menu_component button {
+  margin-right: 1rem;
+  padding: 0.5rem 1rem;
+  color: #fff;
+  background: #e88215;
+  font-family: var(--font-family);
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 13px;
+  width: 7rem;
+  border-radius: 10px;
+  border-color: #eea30f;
+  cursor: pointer;
+}
+
+.NavDropdown.Item {
+
+  color: #070505;
+  background: #e88215;
+  border-color: #eea30f;
+
+}
+
+.dropdown {
+  color: #070505;
+}

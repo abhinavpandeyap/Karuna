@@ -1,0 +1,163 @@
+package com.app.karuna.service;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.app.karuna.dto.LoginDTO;
+import com.app.karuna.entity.Campaign;
+import com.app.karuna.entity.Donor;
+import com.app.karuna.entity.Item;
+import com.app.karuna.entity.Receiver;
+import com.app.karuna.repo.CampaignRepo;
+import com.app.karuna.repo.DonorRepo;
+import com.app.karuna.repo.ItemRepo;
+import com.app.karuna.repo.ReceiverRepo;
+import com.karuna.exception.ResourceNotFoundException;
+import com.karuna.exception.UserAlreadyExistException;
+
+@Service
+@Transactional
+public class DonorServiceImpl implements DonorService {
+
+	@Autowired
+	private DonorRepo donorRepo;
+	
+	@Autowired
+	private CampaignRepo campaignRepo;
+	
+	@Autowired
+	private ModelMapper mapper;
+	
+	@Autowired
+	private ItemRepo itemRepo;
+	
+	@Autowired
+	private ReceiverRepo receiverRepo;
+	
+	
+	@Override
+	public Donor registerDonor(Donor donor) {
+	    List<Donor> existingDonors = donorRepo.findAllByEmail(donor.getEmail());
+	    if (!existingDonors.isEmpty()) {
+	        throw new UserAlreadyExistException("Email Id is Already Registered!!!");
+	    }
+	    return donorRepo.save(donor);
+	}
+
+
+	@Override
+	public Donor loginDonor(LoginDTO loginDTO) {
+	    Donor donor = donorRepo.findByEmailAndPassword(loginDTO.getEmail(), loginDTO.getPassword());
+	    if (donor == null) {
+	        throw new ResourceNotFoundException("Bad Credentials !!!!!");
+	    }
+	    donor.setStatus(true);
+	    return mapper.map(donor, Donor.class);
+	}
+
+
+	@Override
+	public boolean logoutDonor(Long donorId) {
+	    Optional<Donor> donorOptional = donorRepo.findById(donorId);
+	    if (donorOptional.isPresent()) {
+	        Donor donor = donorOptional.get();
+	        donor.setStatus(false);
+	        donorRepo.save(donor);
+	        return true;
+	    }
+	    return false;
+	}
+
+	@Override
+	public Donor updateAcc(Donor donor) {
+	    Optional<Donor> donorOptional = donorRepo.findById(donor.getId());
+	    if (donorOptional.isPresent()) {
+	        Donor existingDonor = donorOptional.get();
+	        existingDonor.setName(donor.getName());
+	        existingDonor.setEmail(donor.getEmail());
+	        existingDonor.setPassword(donor.getPassword());
+	        existingDonor.setPhone(donor.getPhone());
+	        existingDonor.setAddress(donor.getAddress());
+	        existingDonor.setLocation(donor.getLocation());
+
+	        Donor updatedDonor = donorRepo.save(existingDonor);
+	        updatedDonor.setStatus(true);
+	        return updatedDonor;
+	    }
+	   
+	    throw new ResourceNotFoundException("Donor not found with ID: " + donor.getId());
+	}
+
+	@Override
+	public boolean deleteAcc(Long donorId) {
+		 Optional<Donor> donorOptional = donorRepo.findById(donorId);
+		 if (donorOptional.isPresent()) {
+			 donorRepo.deleteById(donorId);
+			 return true;
+		 }
+		 throw new ResourceNotFoundException("Donor not found with ID: " + donorId);
+	}
+
+	@Override
+	public Item donateToReceiver(Long donorId, Long receiverId, Item item) {
+	    Item savedItem = itemRepo.save(item);
+	    Receiver receiver = receiverRepo.findById(receiverId)
+	            .orElseThrow(() -> new ResourceNotFoundException("Receiver not found with ID: " + receiverId));
+	    Donor donor = donorRepo.findById(donorId)
+	            .orElseThrow(() -> new ResourceNotFoundException("Donor not found with ID: " + donorId));
+	    item.setReceiver(receiver);
+	    item.setDonor(donor);
+
+	    // Initialize the relationships
+	    receiver.getItems().size(); // Eager fetch or initialize the items collection
+	    donor.getItems().size(); // Eager fetch or initialize the items collection
+
+	    return savedItem;
+	}
+
+
+	@Override
+	public Item donate(Long donorId, Item item) {
+		Item savedItem = itemRepo.save(item);
+	    Donor donor = donorRepo.findById(donorId)
+	            .orElseThrow(() -> new ResourceNotFoundException("Donor not found with ID: " + donorId));
+	    item.setDonor(donor);
+	    return savedItem;
+	}
+
+	@Override
+	public Item donateToCampaign(Long donorId, Long campaignId, Item item) {
+		Item savedItem = itemRepo.save(item);
+	    Donor donor = donorRepo.findById(donorId)
+	            .orElseThrow(() -> new ResourceNotFoundException("Donor not found with ID: " + donorId));
+	    Campaign campaign = campaignRepo.findById(campaignId)
+	            .orElseThrow(() -> new ResourceNotFoundException("Campaign not found with ID: " + campaignId));
+	    item.setDonor(donor);
+	    item.setCampaign(campaign);
+	    return savedItem;
+	}
+
+	@Override
+	public List<Item> viewHistory(Long donorId) {
+		return itemRepo.findByDonorId(donorId);
+		
+	}
+
+	@Override
+	public List<Receiver> viewReceivers() {
+		
+		return receiverRepo.findAll();
+	}
+
+	@Override
+	public List<Campaign> viewCampaigns() {
+		
+		return campaignRepo.findAll();
+	}
+
+}

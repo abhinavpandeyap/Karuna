@@ -1,0 +1,117 @@
+package com.app.karuna.service;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.app.karuna.dto.LoginDTO;
+import com.app.karuna.entity.Campaign;
+import com.app.karuna.entity.Donor;
+import com.app.karuna.entity.Item;
+import com.app.karuna.entity.Receiver;
+import com.app.karuna.repo.CampaignRepo;
+import com.app.karuna.repo.DonorRepo;
+import com.app.karuna.repo.ItemRepo;
+import com.app.karuna.repo.ReceiverRepo;
+import com.karuna.exception.ResourceNotFoundException;
+
+@Service
+@Transactional
+public class DonorServiceImpl implements DonorService {
+
+	@Autowired
+	private DonorRepo donorRepo;
+	
+	@Autowired
+	private CampaignRepo campaignRepo;
+	
+	@Autowired
+	private ModelMapper mapper;
+	
+	@Autowired
+	private ItemRepo itemRepo;
+	
+	@Autowired
+	private ReceiverRepo receiverRepo;
+	
+	@Override
+	public Donor registerDonor(Donor donor) {
+		return donorRepo.save(donor);
+	}
+
+	@Override
+	public Donor loginDonor(LoginDTO loginDTO) {
+	    Donor donor = donorRepo.findByEmailAndPassword(loginDTO.getEmail(), loginDTO.getPassword());
+	    if (donor == null) {
+	        throw new ResourceNotFoundException("Bad Credentials !!!!!");
+	    }
+	    donor.setStatus(true);
+	    return mapper.map(donor, Donor.class);
+	}
+
+
+	@Override
+	public boolean logoutDonor(Long donorId) {
+	    Optional<Donor> donorOptional = donorRepo.findById(donorId);
+	    if (donorOptional.isPresent()) {
+	        Donor donor = donorOptional.get();
+	        donor.setStatus(false);
+	        donorRepo.save(donor);
+	        return true;
+	    }
+	    return false;
+	}
+
+	@Override
+	public Donor updateAcc(Donor donor) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean deleteAcc(Long donorId) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean donateToReceiver(Long receiverId, Item item) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean donate(Item item) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean donateToCampaign(Long campaignId, Item item) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public List<Item> viewHistory(Long donorId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Receiver> viewReceivers() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Campaign> viewCampaigns() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

@@ -1,0 +1,84 @@
+package com.app.karuna.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.app.karuna.dto.LoginDTO;
+import com.app.karuna.entity.Item;
+import com.app.karuna.entity.Location;
+import com.app.karuna.entity.Payment;
+import com.app.karuna.entity.Receiver;
+import com.app.karuna.entity.Request;
+import com.app.karuna.service.ReceiverService;
+
+@RestController
+public class ReceiverController {
+
+    @Autowired
+    private ReceiverService receiverService;
+
+    @PostMapping("/receivers/register")
+    public Receiver registerReceiver(@RequestBody Receiver receiver) {
+        return receiverService.registerReceiver(receiver);
+    }
+
+    @PostMapping("/receivers/login")
+    public Receiver loginReceiver(@RequestBody LoginDTO loginDTO) {
+        return receiverService.loginReceiver(loginDTO);
+    }
+
+    @PostMapping("/receivers/logout/{receiverId}")
+    public boolean logoutReceiver(@PathVariable Long receiverId) {
+        return receiverService.logoutReceiver(receiverId);
+    }
+
+    @PutMapping("/receivers/{receiverId}")
+    public Receiver updateAccount(@PathVariable Long receiverId, @RequestBody Receiver receiver) {
+        // Set receiverId on the receiver object
+        receiver.setId(receiverId);
+        return receiverService.updateAcc(receiver);
+    }
+
+    @DeleteMapping("/receivers/{receiverId}")
+    public boolean deleteAccount(@PathVariable Long receiverId) {
+        return receiverService.deleteAcc(receiverId);
+    }
+
+    @PostMapping("/receivers/items/accept/{itemId}")
+    public boolean acceptItem(@PathVariable Long itemId) {
+        return receiverService.acceptItem(itemId);
+    }
+
+    @PostMapping("/receivers/items/request")
+    public boolean requestForItem(@RequestBody Request request) {
+        return receiverService.requestForItem(request);
+    }
+
+    @PostMapping("/receivers/delivery/request")
+    public boolean requestForDelivery(@RequestBody Request request) {
+        return receiverService.requestForDelivery(request);
+    }
+
+    @PostMapping("/receivers/payment")
+    public String makePayment(@RequestBody Payment payment) {
+        return receiverService.makePayment(payment);
+    }
+
+    @GetMapping("/receivers/history/{receiverId}")
+    public List<Item> viewHistory(@PathVariable Long receiverId) {
+        return receiverService.viewHistory(receiverId);
+    }
+
+    @GetMapping("/receivers/donors/{donorId}/location")
+    public Location viewLocationOfDonor(@PathVariable Long donorId) {
+        return receiverService.viewLocationOfDonor(donorId);
+    }
+}

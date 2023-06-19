@@ -1,0 +1,101 @@
+package com.app.karuna.service;
+
+import java.util.List;
+
+import com.app.karuna.dto.LoginDTO;
+import com.app.karuna.entity.Item;
+import com.app.karuna.entity.Location;
+import com.app.karuna.entity.Payment;
+import com.app.karuna.entity.Receiver;
+import com.app.karuna.entity.Request;
+
+@Service
+public class ReceiverServiceImpl implements ReceiverService {
+
+    @Autowired
+    private ReceiverRepository receiverRepository;
+
+    @Override
+    public Receiver registerReceiver(Receiver receiver) {
+        // Implement registration logic
+        // ...
+        return receiverRepository.save(receiver);
+    }
+
+    @Override
+    public Receiver loginReceiver(LoginDTO loginDTO) {
+        // Implement login logic
+        // ...
+        return null;
+    }
+
+    @Override
+    public boolean logoutReceiver(Long receiverId) {
+        // Implement logout logic
+        // ...
+        return false;
+    }
+
+    @Override
+    public Receiver updateAcc(Receiver receiver) {
+        // Implement account update logic
+        // ...
+        return receiverRepository.save(receiver);
+    }
+
+    @Override
+    public boolean deleteAcc(Long receiverId) {
+        // Implement account deletion logic
+        // ...
+        receiverRepository.deleteById(receiverId);
+        return true;
+    }
+
+    @Override
+    public boolean acceptItem(Long itemId) {
+        // Implement item acceptance logic
+        // Retrieve the item from the repository
+        Optional<Item> optionalItem = receiverRepository.findItemById(itemId);
+        if (optionalItem.isPresent()) {
+            Item item = optionalItem.get();
+            // Update the item status as accepted
+            item.setStatus("Accepted");
+            receiverRepository.save(item);
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean requestForItem(Request request) {
+        // Implement item request logic
+        // ...
+        return false;
+    }
+
+    @Override
+    public boolean requestForDelivery(Request request) {
+        // Implement delivery request logic
+        // ...
+        return false;
+    }
+
+    @Override
+    public String makePayment(Payment payment) {
+        // Implement payment logic
+        // ...
+        return null;
+    }
+
+    @Override
+    public List<Item> viewHistory(Long receiverId) {
+        // Implement history retrieval logic
+        return receiverRepository.findItemsByReceiverId(receiverId);
+    }
+
+    @Override
+    public Location viewLocationOfDonor(Long donorId) {
+        // Implement location retrieval logic
+        return receiverRepository.findLocationByDonorId(donorId);
+    }
+}

@@ -1,0 +1,121 @@
+package com.app.karuna.service;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.app.karuna.dto.LoginDTO;
+import com.app.karuna.entity.Donor;
+import com.app.karuna.entity.Item;
+import com.app.karuna.entity.Location;
+import com.app.karuna.entity.Payment;
+import com.app.karuna.entity.Receiver;
+import com.app.karuna.entity.Request;
+import com.app.karuna.repo.DonorRepo;
+import com.app.karuna.repo.ItemRepo;
+import com.app.karuna.repo.ReceiverRepo;
+import com.karuna.exception.ResourceNotFoundException;
+
+@Service
+@Transactional
+public class ReceiverServiceImpl implements ReceiverService {
+
+	@Autowired
+	private ReceiverRepo receiverRepo;
+	
+	@Autowired
+	private ModelMapper mapper;
+	
+	@Autowired
+	private ItemRepo itemRepo;
+	
+	@Autowired
+	private DonorRepo donorRepo;
+	
+	@Override
+	public Receiver registerReceiver(Receiver receiver) {
+		
+		return receiverRepo.save(receiver);
+	}
+
+	@Override
+	public Receiver loginReceiver(LoginDTO loginDTO) {
+		 Receiver receiver = receiverRepo.findByEmailAndPassword(loginDTO.getEmail(), loginDTO.getPassword());
+		    if (receiver == null) {
+		        throw new ResourceNotFoundException("Bad Credentials !!!!!");
+		    }
+		    receiver.setStatus(true);
+		    return mapper.map(receiver, Receiver.class);
+
+	}
+
+	@Override
+	public boolean logoutReceiver(Long receiverId) {
+		 Optional<Receiver> receiverOptional = receiverRepo.findById(receiverId);
+		    if (receiverOptional.isPresent()) {
+		        Receiver receiver = receiverOptional.get();
+		        receiver.setStatus(false);
+		        receiverRepo.save(receiver);
+		        return true;
+		    }
+		    return false;
+	}
+
+	@Override
+	public Receiver updateAcc(Receiver receiver) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean deleteAcc(Long receiverId) {
+		 Optional<Receiver> receiverOptional = receiverRepo.findById(receiverId);
+		 if (receiverOptional.isPresent()) {
+			 receiverRepo.deleteById(receiverId);
+			 return true;
+		 }
+		 throw new ResourceNotFoundException("Receiver not found with ID: " + receiverId);
+	}
+	
+
+	@Override
+	public boolean acceptItem(Long ietmId) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean requestForItem(Request request) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean requestForDelivery(Request request) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public String makePayment(Payment payment) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Item> viewHistory(Long receiverId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Location viewLocationOfDonor(Long donorId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

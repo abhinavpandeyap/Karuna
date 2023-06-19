@@ -1,0 +1,104 @@
+package com.app.karuna.service;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.app.karuna.dto.LoginDTO;
+import com.app.karuna.entity.Campaign;
+import com.app.karuna.entity.Donor;
+import com.app.karuna.entity.Item;
+import com.app.karuna.entity.Receiver;
+import com.app.karuna.repo.DonorRepo;
+
+@Service
+public class DonorServiceImpl implements DonorService {
+
+    @Autowired
+    private DonorRepo donorRepository;
+
+    @Override
+    public Donor registerDonor(Donor donor) {
+        // Implement registration logic
+        // ...
+        return donorRepository.save(donor);
+    }
+
+    @Override
+    public Donor loginDonor(LoginDTO loginDTO) {
+        // Implement login logic
+        // ...
+        return null;
+    }
+
+    @Override
+    public boolean logoutDonor(Long donorId) {
+        // Implement logout logic
+        // ...
+        return false;
+    }
+
+    @Override
+    public Donor updateAcc(Donor donor) {
+        // Implement account update logic
+        // ...
+        return donorRepository.save(donor);
+    }
+
+    @Override
+    public boolean deleteAcc(Long donorId) {
+        // Implement account deletion logic
+        // ...
+        donorRepository.deleteById(donorId);
+        return true;
+    }
+
+    @Override
+    public boolean donateToReceiver(Long receiverId, Item item) {
+        // Implement donation to receiver logic
+        // Retrieve the receiver from the repository
+        Optional<Receiver> optionalReceiver = donorRepository.findReceiverById(receiverId);
+        if (optionalReceiver.isPresent()) {
+            Receiver receiver = optionalReceiver.get();
+            // Add the item to the receiver's receivedItems list
+            receiver.getReceivedItems().add(item);
+            donorRepository.save(receiver);
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean donate(Item item) {
+        // Implement donation logic
+        // ...
+        return false;
+    }
+
+    @Override
+    public boolean donateToCampaign(Long campaignId, Item item) {
+        // Implement donation to campaign logic
+        // ...
+        return false;
+    }
+
+    @Override
+    public List<Item> viewHistory(Long donorId) {
+        // Implement history retrieval logic
+        return donorRepository.findItemsByDonorId(donorId);
+    }
+
+    @Override
+    public List<Receiver> viewReceivers() {
+        // Implement receivers retrieval logic
+        return donorRepository.findAllReceivers();
+    }
+
+    @Override
+    public List<Campaign> viewCampaigns() {
+        // Implement campaigns retrieval logic
+        return donorRepository.findAllCampaigns();
+    }
+}
